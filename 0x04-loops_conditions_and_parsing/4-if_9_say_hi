@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # This script is displaying "Best School" 10 times
-num=1
+num=0
 while [ $num -le 10 ]; do
-    echo "Best School"
+    if [ "$num" -eq 9 ]; then
+        echo "Hi"
+    else
+        echo "Best School"
+    fi
     num=$(("$num"+1))
 done
