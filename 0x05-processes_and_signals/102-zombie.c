@@ -3,10 +3,10 @@
 #include <unistd.h>
 
 /**
- * infinite_loop - creates an infinite loop
+ * infinite_while- creates an infinite loop
  * Return: always 0
  */
-int infinite_loop(void)
+int infinite_while(void)
 {
 while (1)
 {
