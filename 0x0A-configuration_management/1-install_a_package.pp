@@ -7,7 +7,7 @@ package { 'python3-pip':
 
 # Install a specific version of Werkzeug compatible with Flask 2.1.0
 package { 'werkzeug':
-  ensure   => '2.0.3',  # or another compatible version
+  ensure   => '2.1.1',  # or another compatible version
   provider => 'pip3',
   require  => Package['python3-pip'],
 }
