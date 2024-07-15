@@ -1,49 +1,20 @@
 #!/usr/bin/env bash
-# Nginx Installation and Configuration Script
 
-echo -e "Updating package list and installing Nginx.\n"
-sudo apt-get update -y -qq && sudo apt-get install nginx -y
+# Update package list
+sudo apt-get update
 
-echo -e "\nSetting up Nginx and configuring firewall.\n"
+# Install nginx
+sudo apt-get install -y nginx
+
+# Ensure Nginx is running and set to listen on port 80
 sudo service nginx start
-sudo ufw allow 'Nginx HTTP'
 
-# Ensure the correct permissions
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
+# Create a custom HTML page
+echo 'Hello World!' | sudo tee /var/www/html/index.html
 
-# Backup the default index file and replace with "Hello World!"
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-echo -e "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
+# Reload Nginx to apply the new HTML page
+sudo nginx -s reload
 
-# Restart Nginx
-sudo service nginx restart
-
-# Check Nginx status
-nginx_status=$(sudo service nginx status | grep "active (running)")
-if [[ -n "$nginx_status" ]]; then
-  echo -e "\nNginx is running.\n"
-else
-  echo -e "\nNginx is not running. Check the service status.\n"
-  exit 1
-fi
-
-# Verify the setup
-response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost)
-if [[ "$response" == "200" ]]; then
-  echo -e "\nHTTP response code: $response - OK\n"
-else
-  echo -e "\nHTTP response code: $response - Failed\n"
-  exit 1
-fi
-
-# Ensure that the response contains "Hello World!"
-content=$(curl -s http://localhost)
-if [[ "$content" == *"Hello World!"* ]]; then
-  echo -e "Content check passed: 'Hello World!' is present\n"
-else
-  echo -e "Content check failed: 'Hello World!' is not present\n"
-  exit 1
-fi
-
-echo -e "\nCompleted. ✅\n"
+# Verify the setup (optional)
+curl -I localhost | grep "200 OK"
+curl localhost
