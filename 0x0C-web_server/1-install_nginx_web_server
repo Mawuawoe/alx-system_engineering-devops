@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#Nginx 
-
-echo -e "Updating and installing Nginx.\n"
 
 # Update package list
 sudo apt-get update
@@ -18,6 +15,14 @@ echo 'Hello World!' | sudo tee /var/www/html/index.html
 # Reload Nginx to apply the new HTML page
 sudo nginx -s reload
 
-# Verify the setup (optional)
-curl -I localhost | grep "200 OK"
-curl localhost
+# Verify the setup
+response=$(curl -s -o /dev/null -w "%{http_code}" localhost)
+echo "HTTP response code: $response"
+
+# Ensure that the response contains "Hello World!"
+content=$(curl -s localhost)
+if [[ "$content" == *"Hello World!"* ]]; then
+  echo "Content check passed: 'Hello World!' is present"
+else
+  echo "Content check failed: 'Hello World!' is not present"
+fi
