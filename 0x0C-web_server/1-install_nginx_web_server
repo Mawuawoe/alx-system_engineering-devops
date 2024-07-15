@@ -2,22 +2,22 @@
 #Nginx 
 
 echo -e "Updating and installing Nginx.\n"
-sudo apt-get update -y -qq && \
-	 sudo apt-get install nginx -y
 
-echo -e "\nSetting up some minor stuff.\n"
+# Update package list
+sudo apt-get update
 
+# Install nginx
+sudo apt-get install -y nginx
+
+# Ensure Nginx is running and set to listen on port 80
 sudo service nginx start
 
-sudo ufw allow 'Nginx HTTP'
+# Create a custom HTML page
+echo 'Hello World!' | sudo tee /var/www/html/index.html
 
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
+# Reload Nginx to apply the new HTML page
+sudo nginx -s reload
 
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-
-echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
-
-sudo service nginx restart
-
-echo -e "\nCompleted. ✅\n"
+# Verify the setup (optional)
+curl -I localhost | grep "200 OK"
+curl localhost
