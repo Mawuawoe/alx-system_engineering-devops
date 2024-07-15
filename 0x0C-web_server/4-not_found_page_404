@@ -1,18 +1,34 @@
 #!/usr/bin/env bash
 
+# Update the package list
 sudo apt-get update
+
+# Install nginx if it isn't already installed
 sudo apt-get install -y nginx
 
+# Create an index.html file in the default web directory with the content "Hello World!"
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
+# Define the string to be inserted for 301 redirection in the nginx configuration
 string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4 permanent;"
+
+# Use sed to find 'server_name _;' in the default nginx configuration file and replace it with the new string
 sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
+# Create a 404.html file in the default web directory with the content "Ceci n'est pas une page"
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
-string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 
-sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+# Remove any existing location block for /404.html to avoid duplicates
+sudo sed -i '/location = \/404.html {/,/}/d' /etc/nginx/sites-enabled/default
 
+# Define the string to be inserted for custom error page handling in the nginx configuration
+error_page_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+
+# Use sed to find 'listen 80 default_server;' in the default nginx configuration file and replace it with the new string
+sudo sed -i "s/listen 80 default_server;/$error_page_string/" /etc/nginx/sites-enabled/default
+
+# Test the nginx configuration for syntax errors
 sudo nginx -t
 
+# Restart nginx to apply the changes
 sudo service nginx restart
