@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# instalI and configure HAproxy on a server to balance load between wb1 and wb2
 
 # Define server IPs
 WEB01_IP="54.160.125.157"
