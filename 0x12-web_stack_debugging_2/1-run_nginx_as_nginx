@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Fix this container so that Nginx is running as the nginx user.
 
 # Update nginx configuration
 NGINX_CONF="/etc/nginx/nginx.conf"
