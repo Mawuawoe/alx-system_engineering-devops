@@ -27,5 +27,5 @@ fi
 nginx -s reload
 
 # Verify the changes
-ps auxff | grep ngin[x]
+ps auxff | pgrep ngin[x]
 nc -z 0 8080 && echo "Nginx is listening on port 8080" || echo "Failed to configure Nginx to listen on port 8080"
