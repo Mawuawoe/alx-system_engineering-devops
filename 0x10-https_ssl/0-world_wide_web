@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# A script to print a message containing the domain and subdomain
+
+print_msg(){
+    dig "$1" | grep -A1 'ANSWER SECTION:' | awk '
+    /^;; ANSWER SECTION:/ {
+        getline; getline;
+        split($0, a);
+        full_subdomain = a[1];
+        record_type = a[4];
+        ip = a[5];
+        full_subdomain = substr(full_subdomain, 1, length(full_subdomain) - 1);
+        split(full_subdomain, parts, ".");
+        subdomain = parts[1];
+        print "The subdomain " subdomain " is a " record_type " record and points to " ip;
+    }
+    '
+}
+
+if [ "$#" -eq 2 ]
+then
+    print_msg "$2.$1"
+else
+    print_msg "www.$1"
+    print_msg "lb-01.$1"
+    print_msg "web-01.$1"
+    print_msg "web-02.$1"
+fi
