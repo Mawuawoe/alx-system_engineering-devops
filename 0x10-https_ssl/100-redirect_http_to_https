@@ -1,0 +1,23 @@
+# Default settings for all proxies
+defaults
+  mode http  # Set default mode to HTTP
+  timeout client 15s  # Maximum inactivity time on client side
+  timeout connect 10s  # Maximum time to wait for a connection attempt to a backend server to succeed
+  timeout server 15s  # Maximum inactivity time on server side
+  timeout http-request 10s  # Maximum time to wait for an HTTP request to be completed
+
+# Frontend configuration for HTTP traffic
+frontend http_front
+    bind *:80  # Bind to all IP addresses on port 80 (standard HTTP port)
+    redirect scheme https code 301 if !{ ssl_fc }  # Redirect HTTP to HTTPS with a 301 status code
+
+# Frontend configuration for HTTPS traffic
+frontend https_front
+    bind *:443 ssl crt /etc/letsencrypt/live/www.dzakago.tech/haproxy.pem  # Bind to all IP addresses on port 443 (standard HTTPS port), enable SSL, and specify the path to the SSL certificate and key
+    default_backend http_back  # Route incoming traffic to the 'http_back' backend
+
+# Backend configuration for HTTP traffic
+backend http_back
+    balance roundrobin  # Distribute incoming requests evenly across servers
+    server web01 54.160.125.157:80 check  # Define server 'web01' with IP address 54.160.125.157 on port 80, enable health checks
+    server web02 52.207.208.124:80 check  # Define server 'web02' with IP address 52.207.208.124 on port 80, enable health checks
