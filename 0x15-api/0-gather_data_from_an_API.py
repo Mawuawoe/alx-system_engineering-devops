@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-script that consumes an api
+Script that consumes an API to fetch user data and their tasks.
 """
 
 import json
@@ -8,25 +8,24 @@ import requests
 import sys
 
 if __name__ == "__main__":
-    user_id = (sys.argv[1])
+    user_id = sys.argv[1]
 
-    response = requests.get('https://jsonplaceholder.typicode.com/users/{}'.format(user_id))
+    # Fetch user data
+    user_url = f'https://jsonplaceholder.typicode.com/users/{user_id}'
+    user_response = requests.get(user_url)
+    user_data = user_response.json()
+    employee_name = user_data.get('name')
 
-    #print(response)
-    # print(response.json())
-    employeeName = response.json().get('name')
-    #print("Employee {} is done with tasks".format(employeeName))
+    # Fetch user tasks
+    todo_url = f'https://jsonplaceholder.typicode.com/users/{user_id}/todos'
+    tasks_response = requests.get(todo_url)
+    tasks_data = tasks_response.json()
+    num_tasks = len(tasks_data)
+    done_tasks = [task['title'] for task in tasks_data if task['completed']]
+    num_done_tasks = len(done_tasks)
 
-    tasks = requests.get('https://jsonplaceholder.typicode.com/users/{}/todos'.format(user_id))
-    numTasks = len(tasks.json())
-    #print(numTasks)
-    numdoneTask = 0
-    doneTask = []
-    for task in tasks.json():
-        if task.get('completed'):
-            doneTask.append(task.get('title'))
-            numdoneTask += 1
-
-    print("Employee {} is done with tasks({}/{}):".format(employeeName, numdoneTask, numTasks))
-    for task in doneTask:
+    # Print results
+    print("Employee {} is done with tasks({}/{}):"
+          .format(employee_name, num_done_tasks, num_tasks))
+    for task in done_tasks:
         print(f"\t{task}")
