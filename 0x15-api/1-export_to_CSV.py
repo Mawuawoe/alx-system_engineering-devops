@@ -31,7 +31,7 @@ if __name__ == "__main__":
     for task in done_tasks:
         print(f"\t {task}")"""
 
-    # Export tasks to CSV
+    """# Export tasks to CSV
     csv_filename = f"{user_id}.csv"
     with open(csv_filename, mode='w', newline='') as file:
         writer = csv.writer(file)
@@ -39,6 +39,15 @@ if __name__ == "__main__":
                          "USERNAME",
                          "TASK_COMPLETED_STATUS",
                          "TASK_TITLE"])
+        for task in tasks_data:
+            writer.writerow([user_id,
+                             employee_name,
+                             task['completed'],
+                             task['title']])"""
+    # Export tasks to CSV
+    csv_filename = f"{user_id}.csv"
+    with open(csv_filename, mode='w', newline='') as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
         for task in tasks_data:
             writer.writerow([user_id,
                              employee_name,
