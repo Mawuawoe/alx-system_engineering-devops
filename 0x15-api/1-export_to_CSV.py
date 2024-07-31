@@ -24,6 +24,7 @@ if __name__ == "__main__":
     num_tasks = len(tasks_data)
     done_tasks = [task['title'] for task in tasks_data if task['completed']]
     num_done_tasks = len(done_tasks)
+    
 
     """# Print results
     print("Employee {} is done with tasks({}/{}):"
@@ -46,7 +47,7 @@ if __name__ == "__main__":
                              task['title']])"""
     # Export tasks to CSV
     csv_filename = f"{user_id}.csv"
-    with open(csv_filename, mode='w', newline='') as file:
+    with open(csv_filename, mode='w') as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
         for task in tasks_data:
             writer.writerow([user_id,
