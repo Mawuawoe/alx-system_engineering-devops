@@ -14,7 +14,7 @@ def number_of_subscribers(subreddit):
     """
 
     # URL to get information about the subreddit
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
 
     # Custom User-Agent to avoid request limits imposed by Reddit
     headers = {"User-Agent": "Desmond"}
