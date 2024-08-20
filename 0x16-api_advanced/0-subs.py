@@ -31,7 +31,7 @@ def number_of_subscribers(subreddit):
 
             # Return the number of subscribers
             # (if present), otherwise return 0
-            return data['data'].get('subscribers', 0)
+            return data['data'].get('subscribers')
         else:
             # If the status code is not 200, return 0
             return 0
