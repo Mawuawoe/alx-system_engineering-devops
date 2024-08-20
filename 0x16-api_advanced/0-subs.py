@@ -17,7 +17,7 @@ def number_of_subscribers(subreddit):
     url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
 
     # Custom User-Agent to avoid request limits imposed by Reddit
-    headers = {"User-Agent": "EclectrochemApp/1.0"}
+    headers = {"User-Agent": "subreddit-subscriber-counter/1.0"}
 
     try:
         # Sending a GET request to the Reddit API
