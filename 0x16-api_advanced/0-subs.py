@@ -19,7 +19,6 @@ def number_of_subscribers(subreddit):
     # Custom User-Agent to avoid request limits imposed by Reddit
     headers = {"User-Agent": "subreddit-subscriber-counter/1.0"}
 
-
     # Sending a GET request to the Reddit API
     response = requests.get(url, headers=headers, allow_redirects=False)
 
@@ -35,4 +34,3 @@ def number_of_subscribers(subreddit):
     else:
         # If the status code is not 200, return 0
         return 0
-
