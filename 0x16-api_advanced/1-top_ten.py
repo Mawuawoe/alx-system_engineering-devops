@@ -18,6 +18,7 @@ def top_ten(subreddit):
             for post in posts[:10]:  # Get only the first 10 posts
                 print(post["data"]["title"])
         else:
+            print(response.status_code)
             print(None)
     except requests.RequestException:
         print(None)
