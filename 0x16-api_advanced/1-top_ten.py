@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""
+the first 10 hot posts listed for a given subreddit.
+"""
 import requests
 
 
