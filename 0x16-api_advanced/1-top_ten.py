@@ -24,4 +24,9 @@ def top_ten(subreddit):
             print('Error parsing JSON: {}'.format(e))
     else:
         print('Failed to retrieve data. Status code: {}'.format(r.status_code))
-        print('Response Text: {}'.format(r.text))  # Print the response text for debugging
+        try:
+            # Encode response text to UTF-8
+            response_text = r.text.encode('utf-8')
+            print('Response Text: {}'.format(response_text))
+        except UnicodeEncodeError as e:
+            print('Error encoding response text: {}'.format(e))
