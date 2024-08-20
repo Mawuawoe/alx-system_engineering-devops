@@ -1,11 +1,9 @@
-#!/usr/bin/python3
-"""
-the first 10 hot posts listed for a given subreddit.
-"""
 import requests
 
 def top_ten(subreddit):
-    headers = {'User-Agent': 'Mozilla/5.0'}
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+    }
     url = 'https://www.reddit.com/r/{}/hot.json?limit=10'.format(subreddit)
     r = requests.get(url, headers=headers)
 
@@ -26,3 +24,4 @@ def top_ten(subreddit):
             print('Error parsing JSON: {}'.format(e))
     else:
         print('Failed to retrieve data. Status code: {}'.format(r.status_code))
+        print('Response Text: {}'.format(r.text))  # Print the response text for debugging
