@@ -1,32 +1,23 @@
+#!/usr/bin/python3
+"""
+the first 10 hot posts listed for a given subreddit.
+"""
 import requests
 
-def top_ten(subreddit):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-    }
-    url = 'https://www.reddit.com/r/{}/hot.json?limit=10'.format(subreddit)
-    r = requests.get(url, headers=headers)
 
-    if r.status_code == 200:
-        try:
-            r_json = r.json()
-            posts = r_json.get('data', {}).get('children', [])
-            
-            if not posts:
-                print("No posts found.")
-            
-            for post in posts:
-                post_data = post.get('data', {})
-                title = post_data.get('title', 'No Title')
-                print("Post Data: {}".format(post_data))  # Debug: Print the entire post data
-                print("Title: {}".format(title))  # Print the title
-        except ValueError as e:
-            print('Error parsing JSON: {}'.format(e))
-    else:
-        print('Failed to retrieve data. Status code: {}'.format(r.status_code))
-        try:
-            # Encode response text to UTF-8
-            response_text = r.text.encode('utf-8')
-            print('Response Text: {}'.format(response_text))
-        except UnicodeEncodeError as e:
-            print('Error encoding response text: {}'.format(e))
+def top_ten(subreddit):
+    """Prints the titles of the first 10 hot posts for a given subreddit."""
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    headers = {"User-Agent": "subreddit-post-fetcher/1.0"}
+
+    try:
+        response = requests.get(url, headers=headers, allow_redirects=False)
+        if response.status_code == 200:
+            data = response.json()
+            posts = data["data"]["children"]
+            for post in posts[:10]:  # Get only the first 10 posts
+                print(post["data"]["title"])
+        else:
+            print(None)
+    except requests.RequestException:
+        print(None)
