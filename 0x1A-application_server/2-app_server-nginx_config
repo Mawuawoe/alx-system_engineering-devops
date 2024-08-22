@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    server_name localhost 54.160.125.157 web-01.dzakago.tech dzakago.tech;
+
+    location /airbnb-onepage/ {
+        include proxy_params;
+        proxy_pass http://localhost:5000;
+
+        # add custom header
+        add_header X-Served-By "155483-web-01";
+    }
+}
